@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Администрационная панель</title>
+
+    <link rel="icon" type="image/png" th:href="@{/favicon.ico}"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <meta name="ctx" th:content="${#httpServletRequest.getContextPath()}"/>
+</head>
+
+<body>
+
+<div th:replace="~{navigation :: navi(AdminDashboard)}"/>
+
+<div class="container">
+
+    <h1>Admin panel</h1>
+
+    <br>
+
+    <h3>Registered users:</h3>
+
+    <br>
+
+    <table class="table table-hover product-table">
+        <thead class="thead-dark">
+        <tr>
+            <!--            <th>id_custom</th>-->
+            <th>Id</th>
+            <th>User name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Actions</th>
+            <!--            <th>Roles</th>-->
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="user,iterStat : ${users}" class="one-product">
+
+            <!--            <td th:text="${iterStat.index}"/>-->
+            <td th:text="${user.getId()}"></td>
+            <td th:text="${user.getUserName()}"/>
+            <td th:text="${user.getFirstName()}"/>
+            <td th:text="${user.getLastName()}"/>
+            <td th:text="${user.getEmail()}"/>
+            <td>
+                <option th:each="role : ${user.getRoles()}"
+                        th:value="${role.id}"
+                        th:utext="${role.name}"/>
+            <td/>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a class="btn btn-success" th:href="@{/register/{id}(id = ${user.id})}">Edit<i
+                        class="fas fa-edit"></i></a>
+                <form class="d-inline" th:method="delete" th:action="@{/register/{id}(id = ${user.id})}">
+                    <button class="btn btn-danger">Del<i class="far fa-trash-alt"></i></button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <a th:href="@{/products/add}">Add product</a>
+</div>
+</body>
+</html>
