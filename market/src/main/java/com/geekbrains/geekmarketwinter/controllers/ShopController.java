@@ -14,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import contract.specifications.ProductSpecs;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -45,6 +47,9 @@ public class ShopController {
     @Autowired
 //    private DeliveryAddressService deliveryAddressService;
     private DeliveryAddressServiceA deliveryAddressService;
+
+    @Autowired
+    private MailService mailService;
 
     @GetMapping
     public String shopPage(Model model,
@@ -153,7 +158,7 @@ public class ShopController {
     }
 
     @GetMapping("/order/result/{id}")
-    public String orderConfirm(Model model, @PathVariable(name = "id") Long id, Principal principal) {
+    public String orderConfirm(Model model, @PathVariable(name = "id") Long id, Principal principal) throws MessagingException, IOException {
         if (principal == null) {
             return "redirect:/login";
         }
@@ -164,6 +169,7 @@ public class ShopController {
             return "redirect:/";
         }
 //        mailService.sendOrderMail(confirmedOrder);
+        mailService.sendEmailWithAttachment(confirmedOrder);
         model.addAttribute("order", confirmedOrder);
         return "order-result";
     }
