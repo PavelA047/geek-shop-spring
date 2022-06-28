@@ -3,12 +3,11 @@ package contract.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Data
 @Table(name = "roles")
-public class Role implements Serializable {
+public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -26,6 +25,7 @@ public class Role implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Role{" + "id=" + id + ", name='" + name + '\'' + '}';
+//        return "Role{" + "id=" + id + ", name='" + name + '\'' + '}';
+		return name;
 	}
 }

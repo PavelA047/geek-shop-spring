@@ -31,7 +31,7 @@ public class Product implements Serializable {
     @Pattern(regexp = "([0-9]{1,})", message = "недопустимый символ")
     @Size(min = 8, max = 8, message = "требуется 8 числовых символов")
     private String vendorCode;
-    
+
     @JsonManagedReference                   // JSON INFINITY LOOP PREVENTION
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "product")
     private List<ProductImage> images;

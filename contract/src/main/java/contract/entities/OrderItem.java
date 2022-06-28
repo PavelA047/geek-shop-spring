@@ -5,13 +5,12 @@ import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "orders_item")
 @Data
 @Component
-public class OrderItem implements Serializable {
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -29,10 +28,10 @@ public class OrderItem implements Serializable {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-    
+
     @ManyToOne
     @JoinColumn(name = "order_id")
     @JsonBackReference
     private Order order;
-    
+
 }

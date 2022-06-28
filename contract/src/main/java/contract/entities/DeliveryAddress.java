@@ -3,12 +3,11 @@ package contract.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "delivery_addresses")
 @Data
-public class DeliveryAddress implements Serializable {
+public class DeliveryAddress {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -17,7 +16,7 @@ public class DeliveryAddress implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	@Column(name = "address")
 	private String address;
 }

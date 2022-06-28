@@ -41,12 +41,12 @@ public class ShopController {
     private SendMessageService sendMessageService;
 
     @Autowired
-//    private OrderService orderService;
-    private OrderServiceA orderService;
+    private OrderService orderService;
+//    private OrderServiceA orderService;
 
     @Autowired
-//    private DeliveryAddressService deliveryAddressService;
-    private DeliveryAddressServiceA deliveryAddressService;
+    private DeliveryAddressService deliveryAddressService;
+//    private DeliveryAddressServiceA deliveryAddressService;
 
     @Autowired
     private MailService mailService;
@@ -108,7 +108,8 @@ public class ShopController {
         User user = registrationService.getUser(principal.getName());
 //        CartUserDto cartUserDto = new CartUserDto(user, shoppingCartService.getCurrentCart(httpServletRequest.getSession()));
 //        Order order = orderService.makeOrder(cartUserDto);
-        Order order = orderService.makeOrder(shoppingCartService.getCurrentCart(httpServletRequest.getSession()), user);
+//        Order order = orderService.makeOrder(shoppingCartService.getCurrentCart(httpServletRequest.getSession()), user);
+        Order order = orderService.makeOrder(user.getUserName(), shoppingCartService.getCurrentCart(httpServletRequest.getSession()));
         List<DeliveryAddress> deliveryAddresses = deliveryAddressService.getUserAddresses(user.getId());
         model.addAttribute("order", order);
         model.addAttribute("deliveryAddresses", deliveryAddresses);
@@ -146,13 +147,15 @@ public class ShopController {
         }
         User user = registrationService.getUser(principal.getName());
 //        CartUserDto cartUserDto = new CartUserDto(user, shoppingCartService.getCurrentCart(httpServletRequest.getSession()));
-        Order order = orderService.makeOrder(shoppingCartService.getCurrentCart(httpServletRequest.getSession()), user);
+//        Order order = orderService.makeOrder(shoppingCartService.getCurrentCart(httpServletRequest.getSession()), user);
 //        Order order = orderService.makeOrder(cartUserDto);
+        Order order = orderService.makeOrder(user.getUserName(), shoppingCartService.getCurrentCart(httpServletRequest.getSession()));
         order.setDeliveryAddress(orderFromFrontend.getDeliveryAddress());
         order.setPhoneNumber(orderFromFrontend.getPhoneNumber());
         order.setDeliveryDate(LocalDateTime.now().plusDays(7));
         order.setDeliveryPrice(0.0);
         order = orderService.saveOrder(order);
+        System.out.println(order.isConfirmed());
         model.addAttribute("order", order);
         return "order-filler";
     }
@@ -162,7 +165,6 @@ public class ShopController {
         if (principal == null) {
             return "redirect:/login";
         }
-        // todo ждем до оплаты, проверка безопасности и проблема с повторной отправкой письма сделать одноразовый вход
         User user = registrationService.getUser(principal.getName());
         Order confirmedOrder = orderService.findById(id);
         if (!user.getId().equals(confirmedOrder.getUser().getId())) {

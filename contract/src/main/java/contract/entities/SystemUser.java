@@ -7,13 +7,12 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @FieldMatch(first = "password", second = "matchingPassword", message = "The password fields must match")
-public class SystemUser implements Serializable {
+public class SystemUser {
     @NotNull(message = "please, fill field")
     @Size(min = 3, message = "username length must be greater than 2 symbols")
     private String userName;
