@@ -3,10 +3,9 @@ package contract.entities;
 import lombok.Data;
 
 import javax.validation.constraints.*;
-import java.io.Serializable;
 
 @Data
-public class ProductDTO implements Serializable {
+public class ProductDTO {
     
     private Long id;
 

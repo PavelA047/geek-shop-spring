@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org">
-<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
@@ -50,8 +50,7 @@
         <div th:if="${!order.confirmed}">
             <span>Укажите адрес доставки</span>
             <select class="form-control" th:field="*{deliveryAddress}" id="dropDeliveryAddresses">
-                <option th:each="deliveryAddress : ${deliveryAddresses}" th:value="${deliveryAddress.id}"
-                        th:text="${deliveryAddress.address}"></option>
+                <option th:each="o : ${deliveryAddresses}" th:value="${o.id}" th:text="${o.address}"></option>
             </select>
             <br>
             <span>Укажите номер телефона</span>
@@ -59,7 +58,7 @@
             <br>
             <div class="col-sm-6 controls">
                 <button type="submit" class="btn btn-primary">Готово</button>
-                <button class="btn btn-secondary" th:href="@{/shop}">Вернуться в магазин</button>
+                <a class="btn btn-secondary" th:href="@{'/shop'}">Вернуться на страницу магазина</a>
             </div>
         </div>
         <div th:unless="${!order.confirmed}">
@@ -70,8 +69,8 @@
             <br>
             <div class="col-sm-6 controls">
                 <a class="btn btn-primary" th:href="@{'/shop/order/result/' + ${order.id}}">Оплатить</a>
-                <!--                <a class="btn btn-primary" th:href="@{'/paypal/buy'}">Оплатить</a>-->
-                <button class="btn btn-secondary" th:href="@{/shop}">Вернуться на страницу магазина</button>
+<!--                <a class="btn btn-primary" th:href="@{'/paypal/buy'}">Оплатить</a>-->
+                <a class="btn btn-secondary" th:href="@{'/shop'}">Вернуться на страницу магазина</a>
             </div>
         </div>
     </form>

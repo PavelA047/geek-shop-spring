@@ -5,7 +5,6 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +12,7 @@ import java.util.Map;
 @Entity
 @Data
 @Table(name = "users")
-public class User implements Serializable {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -34,8 +33,11 @@ public class User implements Serializable {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "phone")
+    private String phone;
+
     @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -50,20 +52,22 @@ public class User implements Serializable {
         COLUMN_MAPPINGS.put("first_name", "firstName");
         COLUMN_MAPPINGS.put("last_name", "lastName");
         COLUMN_MAPPINGS.put("email", "email");
+        COLUMN_MAPPINGS.put("phone", "phone");
     }
 
     public User() {
     }
 
-    public User(String userName, String password, String firstName, String lastName, String email) {
+    public User(String userName, String password, String firstName, String lastName, String email, String phone) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.phone = phone;
     }
 
-    public User(String userName, String password, String firstName, String lastName, String email,
+    public User(String userName, String password, String firstName, String lastName, String email, String phone,
                 Collection<Role> roles) {
         this.userName = userName;
         this.password = password;
@@ -76,7 +80,7 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", userName='" + userName + '\'' + ", password='" + "*********" + '\''
-                + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\''
+                + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\'' + ", phone='" + phone + '\''
                 + ", roles=" + roles + '}';
     }
 }

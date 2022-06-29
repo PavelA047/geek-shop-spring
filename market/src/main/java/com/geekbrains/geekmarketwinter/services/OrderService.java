@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface OrderService {
 
     @PostMapping("/order/make_order")
-    Order makeOrder(@RequestBody CartUserDto cartUserDto);
+    Order makeOrder(@RequestParam String userName, @RequestBody ShoppingCart shoppingCart);
 
     @PostMapping("/order/saveOrder")
     Order saveOrder(@RequestBody Order order);
